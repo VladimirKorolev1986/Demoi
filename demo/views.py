@@ -53,7 +53,7 @@ def create_car(request):
 
 def list_car(request):
     car_objects = Car.objects.filter(brand__contains='2')
-    cars = [f'{c.id}, {c.brand}, {c.model}: {c.color}' for c in car_objects]
+    cars = [f'{c.id}, {c.brand}, {c.model}: {c.color} | {c.owners.count()}' for c in car_objects]
     return HttpResponse('<br>'.join(cars))
 
 
@@ -62,3 +62,9 @@ def create_person(request):
     for car in cars:
         Person(name='P', car=car).save()
     return HttpResponse('Всё получилось')
+
+def list_person(request):
+    people_objects = Person.objects.all()
+    people = [f'{p.name}, {p.car}' for p in people_objects]
+    return HttpResponse('<br>'.join(people))
+

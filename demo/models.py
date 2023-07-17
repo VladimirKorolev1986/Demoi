@@ -9,4 +9,5 @@ class Car(models.Model):
 
 class Person(models.Model):
     name = models.CharField(max_length=50)
-    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+    car = models.ForeignKey(Car, on_delete=models.CASCADE, related_name='owners')
+
