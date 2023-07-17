@@ -2,6 +2,9 @@ import datetime
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.core.paginator import Paginator
+import random
+
+from demo.models import Car, Person
 
 
 def index(request):
@@ -37,3 +40,25 @@ def pagi(request):
         'page': page
     }
     return render(request, 'pagi.html', context)
+
+
+def create_car(request):
+    car = Car(
+        brand=random.choice(['B1', 'B2', 'B3']),
+        model=random.choice(['M1', 'M2', 'M3']),
+        color=random.choice(['C1', 'C2', 'C3']))
+    car.save()
+    return HttpResponse(f'Всё получилось! Новая машина: {car.brand}, {car.model}')
+
+
+def list_car(request):
+    car_objects = Car.objects.filter(brand__contains='2')
+    cars = [f'{c.id}, {c.brand}, {c.model}: {c.color}' for c in car_objects]
+    return HttpResponse('<br>'.join(cars))
+
+
+def create_person(request):
+    cars = Car.objects.all()
+    for car in cars:
+        Person(name='P', car=car).save()
+    return HttpResponse('Всё получилось')
