@@ -63,8 +63,8 @@ def create_person(request):
         Person(name='P', car=car).save()
     return HttpResponse('Всё получилось')
 
+
 def list_person(request):
     people_objects = Person.objects.all()
     people = [f'{p.name}, {p.car}' for p in people_objects]
     return HttpResponse('<br>'.join(people))
-
